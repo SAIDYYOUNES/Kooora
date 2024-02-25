@@ -6,19 +6,31 @@ import { useDispatch } from 'react-redux'
 import { getPlayers } from '../redux/players/actions'
 
 export default function Players() {
+  const [text, onChangeText] = React.useState('');
+  const [filteredPlayers, setFilteredPlayers] = React.useState(null);
   const dispatch = useDispatch()
+  // /** @type {import("../types").} */
   const players = useSelector(state => state.player.players)
+  useEffect(() => {
+      setFilteredPlayers(players.filter(player => player.player_name.toLowerCase().includes(text.toLowerCase())))
 
+}
+  , [text,players])
   useEffect(() => {
     dispatch(getPlayers())
   }, [])
   return (
     <>
-   
+    <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder="serach for players"
+      />
     {players.length>0 ? (
       <View style={{ marginTop: 20 }}>
         <FlatList
-          data={players}
+          data={filteredPlayers}
           renderItem={({ item }) => {
             return <PlayerCard player={item} />
           }}
