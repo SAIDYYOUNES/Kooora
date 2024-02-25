@@ -13,6 +13,7 @@ const MatchCard = (props) => {
   const navigation = useNavigation()
   const favoris =  useSelector(state => state.match.favorited)
   function addTofavorite(){
+    
     dispatch(favoriteMatch(match))
   }
   
